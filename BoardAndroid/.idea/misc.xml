@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/chaewon/Documents/Board-Android/app/src/main/res/layout/activity_main.xml" value="0.2907608695652174" />
+        <entry key="..\:/Users/initech/Documents/Board-Android/BoardAndroid/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/Users/initech/Documents/Board-Android/BoardAndroid/app/src/main/res/layout/activity_main.xml" value="0.15208333333333332" />
+        <entry key="..\:/Users/initech/Documents/Board-Android/BoardAndroid/app/src/main/res/layout/activity_signup.xml" value="0.2" />
+        <entry key="..\:/Users/initech/Documents/Board-Android/BoardAndroid/app/src/main/res/layout/activity_splash.xml" value="0.225" />
       </map>
     </option>
   </component>
