@@ -35,7 +35,7 @@
             android:id="@+id/editId"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="5" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
             android:id="@+id/editPassword"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="4" />
+            android:layout_weight="15" />
 
     </LinearLayout>
     <LinearLayout

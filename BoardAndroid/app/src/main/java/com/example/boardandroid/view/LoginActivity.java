@@ -1,4 +1,4 @@
-package com.example.boardandroid;
+package com.example.boardandroid.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.boardandroid.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -31,12 +33,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onClickLoginActivity(){
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
     private void onClickSignUpActivity(){
-        Intent intent = new Intent(this,SignupActivity.class);
+        Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
     }
 }
