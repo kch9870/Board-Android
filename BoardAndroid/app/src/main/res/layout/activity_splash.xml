@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Made by Kim and won"
+            android:text="Made by Kim and won \n ft.Kong"
             android:textAlignment="center"
             android:layout_weight="10"/>
 
