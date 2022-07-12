@@ -1,0 +1,16 @@
+package com.example.boardandroid.repository.model.request;
+
+public class LoginRequest {
+    public String email;
+    public String password;
+
+    public LoginRequest(String email, String password){
+        this.email = email;
+        this.password = password;
+    }
+
+    public void setLoginRequest(String email, String password){
+        this.email = email;
+        this.password = password;
+    }
+}
