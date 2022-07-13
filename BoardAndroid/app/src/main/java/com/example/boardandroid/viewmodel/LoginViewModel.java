@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.boardandroid.repository.error.ForumusException;
-import com.example.boardandroid.repository.model.BaseResponse;
 import com.example.boardandroid.repository.model.UserInfo;
 import com.example.boardandroid.repository.model.request.LoginRequest;
 import com.example.boardandroid.repository.model.response.LoginResponse;
@@ -25,8 +24,8 @@ public class LoginViewModel extends ViewModel {
     public MutableLiveData<Boolean> checkLogin = new MutableLiveData<>();
     public MutableLiveData<LoginResponse> checkLoginResponse = new MutableLiveData<>();
 
-    public int resultResponseCode;
     private String baseUrl = "http://54.213.3.105:3000/";
+    public int resultResponseCode;
     /**
      * 로그인 서비스 결과
      *
@@ -45,8 +44,9 @@ public class LoginViewModel extends ViewModel {
 
     /**
      * 로그인 통신
-     *  @param email
+     * @param email
      *  @param password
+     * @return
      */
     public void Login (String email, String password){
         setBaseUrl(baseUrl);
@@ -72,7 +72,6 @@ public class LoginViewModel extends ViewModel {
                     if(loginResponse != null){
                         switch(loginResponse.responseCode){
                             case 200:
-                                userInfo.setUserInfo(loginResponse.userInfo.email,loginResponse.userInfo.name,loginResponse.userInfo.nickName);
                                 Log.d("SUCCESS","success retrofit");
                                 break;
                             case 400:
@@ -80,17 +79,17 @@ public class LoginViewModel extends ViewModel {
                                 break;
                             case 401:
                                 Log.d("ERROR401","Not match User Password");
+                                checkLoginResponse.setValue(loginResponse);
                                 break;
                             default:
                                 Log.d("ERROR500","error");
                                 break;
                         }
                     }
-                    else{
+                    else {
                         // Data Error
-                        Log.d("ERROR HTTP","Http retrofit");
+                        Log.d("ERROR HTTP", "Http retrofit");
                     }
-                   resultResponseCode = loginResponse.responseCode;
                 }
 
                 @Override
@@ -99,18 +98,6 @@ public class LoginViewModel extends ViewModel {
                 }
             });
         }
-    }
-
-    /**
-     * 회원가입
-     *
-     * @param email
-     * @param password
-     * @param name
-     * @param nickName
-     */
-    public void Signup(String email,String password,String name, String nickName){
-
     }
 
     /**

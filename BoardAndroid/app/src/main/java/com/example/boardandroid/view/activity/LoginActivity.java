@@ -27,18 +27,16 @@ public class LoginActivity extends AppCompatActivity {
 
         // View Model 설정
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-        loginViewModel.activityLoginResponse().observe(this,this::responseResult);
 
         // 로그인 버튼
         Button loginBtn = findViewById(R.id.btnLogin);
         loginBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // viewmodel
                 eventLogin();
                 if(Boolean.TRUE.equals(loginViewModel.activityCheckLogin().getValue())){
-                    if(loginViewModel.activityLoginResponse().getValue() == null){
-                        onClickLoginActivity();
-                    }
+                    onClickLoginActivity();
                 }
                 else Log.d("ERROR","activityCheckLogin");
             }
@@ -60,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.editPassword);
         loginViewModel.Login(editEmail.getText().toString(),password.getText().toString());
 
+        Log.d("test",String.valueOf(loginViewModel.resultResponseCode));
     }
 
     public void responseResult(LoginResponse loginResponse) {
