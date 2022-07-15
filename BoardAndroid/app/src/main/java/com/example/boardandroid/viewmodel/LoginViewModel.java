@@ -9,12 +9,12 @@ import com.example.boardandroid.repository.model.request.LoginRequest;
 import com.example.boardandroid.repository.model.response.LoginResponse;
 
 public class LoginViewModel extends ViewModel {
-    MutableLiveData<Integer> mLoginResultMutableData = new MutableLiveData<>();
+    MutableLiveData<LoginResponse> mLoginResultMutableData = new MutableLiveData<>();
 
     LoginRepository mLoginRepository;
 
     public LoginViewModel() {
-        mLoginResultMutableData.postValue(500);
+//        mLoginResultMutableData.postValue(new LoginResponse(null,null,null));
         mLoginRepository = new LoginRepository();
     }
 
@@ -23,20 +23,20 @@ public class LoginViewModel extends ViewModel {
             @Override
             public void onResponse(LoginResponse loginResponse) {
                 if(loginResponse.responseCode == 200){
-                    mLoginResultMutableData.postValue(loginResponse.responseCode);
+                    mLoginResultMutableData.postValue(loginResponse);
                 }
                 else if (loginResponse.responseCode == 401){
-                    mLoginResultMutableData.postValue(loginResponse.responseCode);
+                    mLoginResultMutableData.postValue(loginResponse);
                 }
-                else mLoginResultMutableData.postValue(loginResponse.responseCode);
+                else mLoginResultMutableData.postValue(loginResponse);
             }
 
             @Override
             public void onFailure(Throwable t) {
-                mLoginResultMutableData.postValue(500);
+
             }
         });
     }
 
-    public LiveData<Integer> getLoginResult() {return mLoginResultMutableData; }
+    public LiveData<LoginResponse> getLoginResult() {return mLoginResultMutableData; }
 }

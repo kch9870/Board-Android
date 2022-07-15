@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.boardandroid.R;
-import com.example.boardandroid.repository.model.BaseResponse;
 import com.example.boardandroid.repository.model.response.LoginResponse;
 import com.example.boardandroid.viewmodel.LoginViewModel;
 
@@ -33,15 +32,17 @@ public class LoginActivity extends AppCompatActivity {
         // View Model 설정
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        loginViewModel.getLoginResult().observe(this, new Observer<Integer>() {
+        loginViewModel.getLoginResult().observe(this, new Observer<LoginResponse>() {
             @Override
-            public void onChanged(Integer s) {
-                if(s == 200){
+            public void onChanged(LoginResponse loginResponse) {
+                if(loginResponse.responseCode == 200){
+                    Log.d("200SUCCESS",loginResponse.userInfo.email);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
-                else if(s == 401) Log.d("HTTP ERROR","Not match User");
-                else if(s == 400) Log.d("HTTP ERROR","Bad Request");
+                else if(loginResponse.responseCode == 401) Log.d("HTTP ERROR","Not match User");
+                else if(loginResponse.responseCode == 400) Log.d("HTTP ERROR","Bad Request");
                 else Log.d("FAIL LOGIN","fail login");
             }
         });

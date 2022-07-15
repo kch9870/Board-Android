@@ -4,64 +4,35 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.boardandroid.repository.error.ForumusException;
-import com.example.boardandroid.repository.service.ForumusService;
-import com.example.boardandroid.view.activity.SignupActivity;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.example.boardandroid.repository.LoginRepository;
+import com.example.boardandroid.repository.SignupRepository;
+import com.example.boardandroid.repository.model.request.LoginRequest;
+import com.example.boardandroid.repository.model.request.SignupRequest;
+import com.example.boardandroid.repository.model.response.LoginResponse;
+import com.example.boardandroid.repository.model.response.SignupResponse;
 
 public class SignupViewModel extends ViewModel {
-    public SignupActivity signupActivity;
+    MutableLiveData<SignupResponse> mSignupResultMutableData = new MutableLiveData<>();
 
-    /**
-     * 회원가입 체크 livedata
-     * 아이디 중복체크 livedata
-     * 닉네임 중복체크 livedata
-     */
-    private MutableLiveData<Boolean> checkSignup = new MutableLiveData<>();
-    private MutableLiveData<Boolean> checkId = new MutableLiveData<>();
-    private MutableLiveData<Boolean> checkNickName = new MutableLiveData<>();
+    SignupRepository mSignupRepository;
 
-    public LiveData<Boolean> getCheckSignup() { return checkSignup; }
-    public LiveData<Boolean> getCheckId() { return checkId; }
-    public LiveData<Boolean> getCheckNickName() { return checkNickName; }
-
-    /**
-     * 회원가입
-     * 아이디 중복체크 확인
-     * 닉네임 중복체크 확인
-     * 비밀번호 2차 검증 확인
-     */
-    public void checkSignupEvent(String email, String password, String name, String nickName) {
-        if (email.isEmpty() || password.isEmpty() || name.isEmpty() || nickName.isEmpty()) {
-            checkSignup.setValue(false);
-        } else checkSignup.setValue(true);
+    public SignupViewModel() {
+        mSignupRepository = new SignupRepository();
     }
 
-    public void checkIdEvent(String email){
-        if(email.isEmpty()) {
-            checkId.setValue(false);
-        }else checkId.setValue(true);
+    public void signup(String email, String password, String name, String nickName){
+        mSignupRepository.signupRemote(new SignupRequest(email, password, name, nickName), new SignupRepository.ISignupResponse() {
+            @Override
+            public void onResponse(SignupResponse signupResponse) {
+                mSignupResultMutableData.postValue(signupResponse);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
-    public void checkNickNameEvent(String nickName){
-        if(nickName.isEmpty()) {
-            checkNickName.setValue(false);
-        }else checkNickName.setValue(true);
-    }
-
-    /**
-     * Interface - Response Listener
-     */
-    public interface ResponseListener<T> {
-        void onResponse(T response);
-    }
-
-    /**
-     * Interface - Error Listener
-     */
-    public interface ErrorListener {
-        void onError(ForumusException error);
-    }
+    public LiveData<SignupResponse> getSignupResult() {return mSignupResultMutableData; }
 }
