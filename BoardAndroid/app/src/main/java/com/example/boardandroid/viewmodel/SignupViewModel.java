@@ -36,8 +36,19 @@ public class SignupViewModel extends ViewModel {
     public void checkSignupEvent(String email, String password, String name, String nickName) {
         if (email.isEmpty() || password.isEmpty() || name.isEmpty() || nickName.isEmpty()) {
             checkSignup.setValue(false);
-            checkId.setValue(true);
         } else checkSignup.setValue(true);
+    }
+
+    public void checkIdEvent(String email){
+        if(email.isEmpty()) {
+            checkId.setValue(false);
+        }else checkId.setValue(true);
+    }
+
+    public void checkNickNameEvent(String nickName){
+        if(nickName.isEmpty()) {
+            checkNickName.setValue(false);
+        }else checkNickName.setValue(true);
     }
 
     /**

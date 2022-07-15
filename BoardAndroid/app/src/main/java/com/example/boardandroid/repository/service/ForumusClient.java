@@ -8,15 +8,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Forumus Builder
  */
 public class ForumusClient {
-    public ForumusService forumusService;
-    private String baseUrl = "http://54.213.3.105:3000/";
+    private static Retrofit retrofit;
 
-    public void setBaseUrl() {
-        forumusService = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(ForumusService.class);
+    public static Retrofit getInstance(){
+        if(retrofit == null){
+            retrofit = new Retrofit.Builder()
+                    .baseUrl("http://54.213.3.105:3000/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit;
     }
-
 }

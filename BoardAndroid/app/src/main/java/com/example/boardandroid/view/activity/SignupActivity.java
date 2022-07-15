@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.boardandroid.R;
+import com.example.boardandroid.repository.model.BaseResponse;
 import com.example.boardandroid.repository.model.UserInfo;
 import com.example.boardandroid.repository.model.request.LoginRequest;
 import com.example.boardandroid.repository.model.request.SignupRequest;
@@ -31,12 +32,23 @@ public class SignupActivity extends AppCompatActivity {
     private SignupViewModel signupViewModel;
 
     ForumusClient forumusClient = new ForumusClient();
-    UserInfo userInfo = UserInfo.getInstance();
+    BaseResponse baseResponse = BaseResponse.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        // 변수 string 으로 변환
+        EditText editEmail = findViewById(R.id.email);
+        EditText editPassword = findViewById(R.id.joinPassWord);
+        EditText editName = findViewById(R.id.name);
+        EditText editNickName = findViewById(R.id.nickName);
+
+        String email = editEmail.getText().toString();
+        String password = editPassword.getText().toString();
+        String name = editName.getText().toString();
+        String nickName = editNickName.getText().toString();
 
         // View Model 설정
         signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
@@ -45,24 +57,25 @@ public class SignupActivity extends AppCompatActivity {
         Button joinBtn = findViewById(R.id.btnJoin);
         joinBtn.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {checkEmptyText();}
+            public void onClick(View view) {checkEmptyText(email,password,name,nickName);}
         });
 
     }
+
     /**
      * 입력값 빈 값 체크 view model 에서
      */
-    public void checkEmptyText(){
-        EditText email = findViewById(R.id.email);
-        EditText password = findViewById(R.id.joinPassWord);
-        EditText name = findViewById(R.id.name);
-        EditText nickName = findViewById(R.id.nickName);
-
-        signupViewModel.checkSignupEvent(email.getText().toString(),password.getText().toString(),
-                name.getText().toString(),nickName.getText().toString());
+    public void checkEmptyText(String email,String password,String name,String nickName){
+        signupViewModel.checkSignupEvent(email,password,name,nickName);
         if(Boolean.TRUE.equals(signupViewModel.getCheckSignup().getValue())){
-            sighupEvent(email.getText().toString(),password.getText().toString(),
-                    name.getText().toString(),nickName.getText().toString());
+            signupViewModel.checkIdEvent(email);
+            signupViewModel.checkNickNameEvent(nickName);
+            if(Boolean.TRUE.equals(signupViewModel.getCheckId().getValue()) &&
+                    Boolean.TRUE.equals(signupViewModel.getCheckNickName().getValue())){
+                sighupEvent(email,password,name,nickName);
+            }
+            else Log.d("CHECK SIGNUP TEST","아이디 닉네임 중복 체 오류");
+
         }
         else Log.d("CHECK SIGNUP TEST","빈값이 있습니다.");
     }
@@ -77,54 +90,34 @@ public class SignupActivity extends AppCompatActivity {
      * @param nickName
      */
     public void sighupEvent(String email, String password, String name, String nickName) {
-        SignupRequest signupRequest = new SignupRequest(email,password,name,nickName);
-        // ForumusService -> signService
-        Call<SignupResponse> call = forumusClient.forumusService.signupService(signupRequest);
-        call.enqueue(new Callback<SignupResponse>() {
-            @Override
-            public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
-                if(!response.isSuccessful()){
-                    // http 오류 설정 (3xx,4xx,5xx)
-                    Log.d("HTTP ERROR","response fail");
-                }
-                SignupResponse signupResponse = response.body();
-                if(signupResponse != null){
-                    switch(signupResponse.responseCode){
-                        case 200:
-                            onClickJoinActivity();
-                            break;
-                        case 400:
-                            Log.d("ERROR400","BAD REQUEST");
-                            break;
-                    }
-                }
-                else {
-                    // Data Error
-                    Log.d("ERROR HTTP", "Http retrofit");
-                }
-            }
 
-            @Override
-            public void onFailure(Call<SignupResponse> call, Throwable t) {
-                Log.d("ERROR HTTP","Http retrofit");
-            }
-        });
     }
 
+    /**
+     * 아이디 중복 체크
+     */
     public void checkId(String email){
 
     }
 
+    /**
+     * 닉네임 중복 체크
+     *
+     * @param nickName
+     */
     public void checkNickName(String nickName)
     {
 
     }
+
+    /**
+     * 회원가입 후
+     */
     private void onClickJoinActivity(){
         // 다이얼로그 추가
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
 
 }

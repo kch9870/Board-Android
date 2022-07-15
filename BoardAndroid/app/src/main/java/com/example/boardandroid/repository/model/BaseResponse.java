@@ -1,7 +1,7 @@
 package com.example.boardandroid.repository.model;
 
 public class BaseResponse {
-    private Integer responseCode;
+    private int responseCode;
     private static BaseResponse instance = null;
 
     public static synchronized BaseResponse getInstance(){
@@ -16,8 +16,7 @@ public class BaseResponse {
     public void setResponseCode(Integer responseCode){
         this.responseCode = responseCode;
     }
-
-    public Integer getResponseCode(){
+    public int getResponseCode(){
         return responseCode;
     }
 }

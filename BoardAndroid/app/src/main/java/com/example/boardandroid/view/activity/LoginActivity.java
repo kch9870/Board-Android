@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.boardandroid.R;
@@ -25,20 +26,30 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        EditText email = findViewById(R.id.editEmail);
+        EditText password = findViewById(R.id.editPassword);
+        Button loginBtn = findViewById(R.id.btnLogin);
+
         // View Model 설정
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
+        loginViewModel.getLoginResult().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer s) {
+                if(s == 200){
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+                else if(s == 401) Log.d("HTTP ERROR","Not match User");
+                else if(s == 400) Log.d("HTTP ERROR","Bad Request");
+                else Log.d("FAIL LOGIN","fail login");
+            }
+        });
         // 로그인 버튼
-        Button loginBtn = findViewById(R.id.btnLogin);
         loginBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // viewmodel
-                eventLogin();
-                if(Boolean.TRUE.equals(loginViewModel.activityCheckLogin().getValue())){
-                    onClickLoginActivity();
-                }
-                else Log.d("ERROR","activityCheckLogin");
+                loginViewModel.login(email.getText().toString(),password.getText().toString());
             }
         });
 
@@ -48,25 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {onClickSignUpActivity();}
         });
-    }
-
-    /**
-     * 로그인 이벤트
-     */
-    public void eventLogin() {
-        EditText editEmail = findViewById(R.id.editEmail);
-        EditText password = findViewById(R.id.editPassword);
-        loginViewModel.Login(editEmail.getText().toString(),password.getText().toString());
-
-        Log.d("test",String.valueOf(loginViewModel.resultResponseCode));
-    }
-
-    public void responseResult(LoginResponse loginResponse) {
-    }
-
-    private void onClickLoginActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
     private void onClickSignUpActivity(){

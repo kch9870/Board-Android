@@ -8,9 +8,4 @@ public class LoginRequest {
         this.email = email;
         this.password = password;
     }
-
-    public void setLoginRequest(String email, String password){
-        this.email = email;
-        this.password = password;
-    }
 }
