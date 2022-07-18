@@ -30,6 +30,7 @@ public class SignupActivity extends AppCompatActivity {
 
         Button joinBtn = findViewById(R.id.btnJoin);
         Button checkEmailBtn = findViewById(R.id.btnCheckEmail);
+        Button checkNickNameBtn = findViewById(R.id.btnCheckNickName);
 
         // View Model 설정
         signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
@@ -45,7 +46,7 @@ public class SignupActivity extends AppCompatActivity {
         signupViewModel.getSignupResult().observe(this, new Observer<SignupResponse>() {
             @Override
             public void onChanged(SignupResponse signupResponse) {
-                if (checkEmail) {
+                if (checkEmail && checkNickName) {
                     if (signupResponse.responseCode == 200) {
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
@@ -55,7 +56,7 @@ public class SignupActivity extends AppCompatActivity {
                         Log.d("FAIL SIGNUP", "fail signup");
                     }
                 } else {
-                    showMessage("아이디 중복 체크 버튼을 확인하세요.");
+                    showMessage("아이디 중복 체크 혹은 닉네임 중복체크를 확인하세요.");
                     Log.d("FAIL CHECK EMAIL", "check email button");
                 }
             }
@@ -68,7 +69,7 @@ public class SignupActivity extends AppCompatActivity {
                 if (checkEmailResponse.responseCode == 200) {
                     checkEmail = true;
                     checkEmailBtn.setEnabled(false);
-                    checkEmailBtn.setBackgroundResource(R.color.logo_color);
+                    checkEmailBtn.setBackgroundColor(R.color.logo_color);
                 } else if (checkEmailResponse.responseCode == 401) {
                     checkEmail = false;
                     showMessage("아이디가 중복됩니다. 다시 설정해주세요.");
@@ -77,6 +78,26 @@ public class SignupActivity extends AppCompatActivity {
                     checkEmail = false;
                     showMessage("아이디 중복체크에 실패하셨습니다.400");
                     Log.d("FAIL CHECK EMAIL", "400 bad request");
+                }
+            }
+        });
+
+        // 3. 닉네임 중복체크
+        signupViewModel.getCheckNickNameResult().observe(this, new Observer<BaseResponse>() {
+            @Override
+            public void onChanged(BaseResponse checkNickNameResponse) {
+                if (checkNickNameResponse.responseCode == 200) {
+                    checkNickName = true;
+                    checkNickNameBtn.setEnabled(false);
+                    checkNickNameBtn.setBackgroundColor(R.color.logo_color);
+                } else if (checkNickNameResponse.responseCode == 401) {
+                    checkNickName = false;
+                    showMessage("닉네임이 중복됩니다. 다시 설정해주세요.");
+                    Log.d("FAIL CHECK NICKNAME", "401 exist user email");
+                } else {
+                    checkNickName = false;
+                    showMessage("닉네임이 중복체크에 실패하셨습니다.400");
+                    Log.d("FAIL CHECK NICKNAME", "400 bad request");
                 }
             }
         });
@@ -116,6 +137,17 @@ public class SignupActivity extends AppCompatActivity {
                 EditText editEmail = findViewById(R.id.email);
 
                 signupViewModel.checkEmail(editEmail.getText().toString());
+            }
+        });
+
+        // NickName 중복체크 버튼
+        checkNickNameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 변수 string 으로 변환
+                EditText editNickName = findViewById(R.id.nickName);
+
+                signupViewModel.checkNickName(editNickName.getText().toString());
             }
         });
     }

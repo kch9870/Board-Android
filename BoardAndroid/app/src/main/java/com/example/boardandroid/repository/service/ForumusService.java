@@ -1,6 +1,7 @@
 package com.example.boardandroid.repository.service;
 
 import com.example.boardandroid.repository.model.request.CheckEmailRequest;
+import com.example.boardandroid.repository.model.request.CheckNickNameRequest;
 import com.example.boardandroid.repository.model.request.LoginRequest;
 import com.example.boardandroid.repository.model.request.SignupRequest;
 import com.example.boardandroid.repository.model.response.BaseResponse;
@@ -24,6 +25,9 @@ public interface ForumusService {
 
     @POST("users/checkEmail")
     Call<BaseResponse> checkEmailService(@Body CheckEmailRequest checkEmailRequest);
+
+    @POST("users/checkNickName")
+    Call<BaseResponse> checkNickNameService(@Body CheckNickNameRequest checkNickNameRequest);
 
     // GET
     /*@GET("users/checkEmail")

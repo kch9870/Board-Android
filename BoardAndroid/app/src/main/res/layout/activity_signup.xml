@@ -2,23 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="40dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="40dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="EMAIL"/>
+            android:text="EMAIL" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
@@ -29,55 +32,66 @@
                 android:id="@+id/btnCheckEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="check"
+                android:layout_weight="2"
+                android:layout_marginLeft="20dp"
                 android:backgroundTint="@color/gray"
-                android:layout_weight="2"/>
+                android:text="check" />
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NAME"/>
+            android:text="NAME" />
+
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:text="NICKNAME"/>
+            android:text="NICKNAME"
+            android:textAlignment="viewStart" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
-        <EditText
-            android:id="@+id/nickName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="check"
-            android:backgroundTint="@color/gray"
-            android:layout_weight="2"/>
+            <EditText
+                android:id="@+id/nickName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btnCheckNickName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginLeft="20dp"
+                android:backgroundTint="@color/gray"
+                android:text="check" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,17 +101,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PASSWORD"/>
+            android:text="PASSWORD" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
-        <EditText
-            android:id="@+id/joinPassWord"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center" />
+
+            <EditText
+                android:id="@+id/joinPassWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
 
             <EditText
                 android:id="@+id/checkPassWord"
@@ -106,17 +122,19 @@
                 android:gravity="center" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:gravity="center">
+
         <Button
             android:id="@+id/btnJoin"
-            android:backgroundTint="@color/logo_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Join"/>
+            android:backgroundTint="@color/logo_color"
+            android:text="Join" />
     </LinearLayout>
 
 </LinearLayout>

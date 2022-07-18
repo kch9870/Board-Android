@@ -3,6 +3,7 @@ package com.example.boardandroid.repository;
 import android.util.Log;
 
 import com.example.boardandroid.repository.model.request.CheckEmailRequest;
+import com.example.boardandroid.repository.model.request.CheckNickNameRequest;
 import com.example.boardandroid.repository.model.request.SignupRequest;
 import com.example.boardandroid.repository.model.response.BaseResponse;
 import com.example.boardandroid.repository.model.response.SignupResponse;
@@ -52,11 +53,39 @@ public class SignupRepository {
      * @param checkEmailRequest
      * @param checkEmailResponse
      */
-    public void checkEmailRemote(CheckEmailRequest checkEmailRequest, ICheckEmailResponse checkEmailResponse) {
+    public void checkEmailRemote(CheckEmailRequest checkEmailRequest, ICheckResponse checkEmailResponse) {
         ForumusService forumusService = ForumusClient.getInstance().create(ForumusService.class);
         Call<BaseResponse> checkEmailCall = forumusService.checkEmailService(checkEmailRequest);
 
         checkEmailCall.enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                if (response.isSuccessful()) {
+                    checkEmailResponse.onResponse(response.body());
+                } else {
+                    Log.d("RESPONSE BODY", "FAIL");
+                    checkEmailResponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    /**
+     * 닉네임 중복체크
+     *
+     * @param checkNickNameRequest
+     * @param checkEmailResponse
+     */
+    public void checkNickNameRemote(CheckNickNameRequest checkNickNameRequest, ICheckResponse checkEmailResponse) {
+        ForumusService forumusService = ForumusClient.getInstance().create(ForumusService.class);
+        Call<BaseResponse> checkNickNameCall = forumusService.checkNickNameService(checkNickNameRequest);
+
+        checkNickNameCall.enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 if (response.isSuccessful()) {
@@ -83,7 +112,7 @@ public class SignupRepository {
         void onFailure(Throwable t);
     }
 
-    public interface ICheckEmailResponse {
+    public interface ICheckResponse {
         void onResponse(BaseResponse baseResponse);
 
         void onFailure(Throwable t);

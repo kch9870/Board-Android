@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.boardandroid.repository.SignupRepository;
 import com.example.boardandroid.repository.model.request.CheckEmailRequest;
+import com.example.boardandroid.repository.model.request.CheckNickNameRequest;
 import com.example.boardandroid.repository.model.request.SignupRequest;
 import com.example.boardandroid.repository.model.response.BaseResponse;
 import com.example.boardandroid.repository.model.response.SignupResponse;
@@ -13,6 +14,7 @@ import com.example.boardandroid.repository.model.response.SignupResponse;
 public class SignupViewModel extends ViewModel {
     MutableLiveData<SignupResponse> mSignupResultMutableData = new MutableLiveData<>();
     MutableLiveData<BaseResponse> mCheckEmailResultMutableData = new MutableLiveData<>();
+    MutableLiveData<BaseResponse> mCheckNickNameResultMutableData = new MutableLiveData<>();
 
     SignupRepository mSignupRepository;
 
@@ -48,7 +50,7 @@ public class SignupViewModel extends ViewModel {
      * @param email
      */
     public void checkEmail(String email) {
-        mSignupRepository.checkEmailRemote(new CheckEmailRequest(email), new SignupRepository.ICheckEmailResponse() {
+        mSignupRepository.checkEmailRemote(new CheckEmailRequest(email), new SignupRepository.ICheckResponse() {
             @Override
             public void onResponse(BaseResponse checkEmailResponse) {
                 mCheckEmailResultMutableData.postValue(checkEmailResponse);
@@ -61,11 +63,26 @@ public class SignupViewModel extends ViewModel {
         });
     }
 
-    public LiveData<SignupResponse> getSignupResult() {
-        return mSignupResultMutableData;
+    /**
+     * 닉네임 중복체크 View model
+     *
+     * @param nickName
+     */
+    public void checkNickName(String nickName) {
+        mSignupRepository.checkNickNameRemote(new CheckNickNameRequest(nickName), new SignupRepository.ICheckResponse() {
+            @Override
+            public void onResponse(BaseResponse checkNickNameResponse) {
+                mCheckNickNameResultMutableData.postValue(checkNickNameResponse);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
-    public LiveData<BaseResponse> getCheckEmailResult() {
-        return mCheckEmailResultMutableData;
-    }
+    public LiveData<SignupResponse> getSignupResult() {return mSignupResultMutableData;}
+    public LiveData<BaseResponse> getCheckEmailResult() {return mCheckEmailResultMutableData;}
+    public LiveData<BaseResponse> getCheckNickNameResult() {return mCheckNickNameResultMutableData;}
 }

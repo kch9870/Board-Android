@@ -41,8 +41,14 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-                else if(loginResponse.responseCode == 401) Log.d("HTTP ERROR","Not match User");
-                else if(loginResponse.responseCode == 400) Log.d("HTTP ERROR","Bad Request");
+                else if(loginResponse.responseCode == 401) {
+                    showMessage("아이디 혹은 비밀번호가 틀립니다. 다시 입력해주세요.");
+                    Log.d("HTTP ERROR","Not match User");
+                }
+                else if(loginResponse.responseCode == 400) {
+                    showMessage("아이디 와 비밀번호를 입력해주세요.");
+                    Log.d("HTTP ERROR","Bad Request");
+                }
                 else Log.d("FAIL LOGIN","fail login");
             }
         });
@@ -65,5 +71,9 @@ public class LoginActivity extends AppCompatActivity {
     private void onClickSignUpActivity(){
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
+    }
+
+    private void showMessage(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
