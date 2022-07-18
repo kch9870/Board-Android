@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.boardandroid.repository.LoginRepository;
 import com.example.boardandroid.repository.SignupRepository;
-import com.example.boardandroid.repository.model.request.LoginRequest;
+import com.example.boardandroid.repository.model.request.CheckEmailRequest;
 import com.example.boardandroid.repository.model.request.SignupRequest;
-import com.example.boardandroid.repository.model.response.LoginResponse;
+import com.example.boardandroid.repository.model.response.BaseResponse;
 import com.example.boardandroid.repository.model.response.SignupResponse;
 
 public class SignupViewModel extends ViewModel {
     MutableLiveData<SignupResponse> mSignupResultMutableData = new MutableLiveData<>();
+    MutableLiveData<BaseResponse> mCheckEmailResultMutableData = new MutableLiveData<>();
 
     SignupRepository mSignupRepository;
 
@@ -20,7 +20,15 @@ public class SignupViewModel extends ViewModel {
         mSignupRepository = new SignupRepository();
     }
 
-    public void signup(String email, String password, String name, String nickName){
+    /**
+     * 회원가입 View model
+     *
+     * @param email
+     * @param password
+     * @param name
+     * @param nickName
+     */
+    public void signup(String email, String password, String name, String nickName) {
         mSignupRepository.signupRemote(new SignupRequest(email, password, name, nickName), new SignupRepository.ISignupResponse() {
             @Override
             public void onResponse(SignupResponse signupResponse) {
@@ -34,5 +42,30 @@ public class SignupViewModel extends ViewModel {
         });
     }
 
-    public LiveData<SignupResponse> getSignupResult() {return mSignupResultMutableData; }
+    /**
+     * 아이디 중복체크 View model
+     *
+     * @param email
+     */
+    public void checkEmail(String email) {
+        mSignupRepository.checkEmailRemote(new CheckEmailRequest(email), new SignupRepository.ICheckEmailResponse() {
+            @Override
+            public void onResponse(BaseResponse checkEmailResponse) {
+                mCheckEmailResultMutableData.postValue(checkEmailResponse);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    public LiveData<SignupResponse> getSignupResult() {
+        return mSignupResultMutableData;
+    }
+
+    public LiveData<BaseResponse> getCheckEmailResult() {
+        return mCheckEmailResultMutableData;
+    }
 }
