@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.boardandroid.R;
+import com.example.boardandroid.repository.model.UserInfo;
 import com.example.boardandroid.repository.model.response.LoginResponse;
 import com.example.boardandroid.viewmodel.LoginViewModel;
 
@@ -36,7 +37,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(LoginResponse loginResponse) {
                 if(loginResponse.responseCode == 200){
-                    Log.d("200SUCCESS",loginResponse.userInfo.email);
+                    UserInfo userInfo = UserInfo.getInstance();
+                    Log.d("200SUCCESS",String.valueOf(loginResponse.userInfo.userId));
+                    userInfo.setUserId(loginResponse.userInfo.userId);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();

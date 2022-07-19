@@ -1,14 +1,22 @@
 package com.example.boardandroid.view.activity;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -31,6 +39,12 @@ public class SignupActivity extends AppCompatActivity {
         Button joinBtn = findViewById(R.id.btnJoin);
         Button checkEmailBtn = findViewById(R.id.btnCheckEmail);
         Button checkNickNameBtn = findViewById(R.id.btnCheckNickName);
+
+        EditText joinPassWord = findViewById(R.id.joinPassWord);
+        EditText checkPassWord = findViewById(R.id.checkPassWord);
+
+        TextView changeTextPassWord = findViewById(R.id.changeTextPassWord);
+
 
         // View Model 설정
         signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
@@ -69,7 +83,7 @@ public class SignupActivity extends AppCompatActivity {
                 if (checkEmailResponse.responseCode == 200) {
                     checkEmail = true;
                     checkEmailBtn.setEnabled(false);
-                    checkEmailBtn.setBackgroundColor(R.color.logo_color);
+                    checkEmailBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.logo_color));
                 } else if (checkEmailResponse.responseCode == 401) {
                     checkEmail = false;
                     showMessage("아이디가 중복됩니다. 다시 설정해주세요.");
@@ -89,7 +103,7 @@ public class SignupActivity extends AppCompatActivity {
                 if (checkNickNameResponse.responseCode == 200) {
                     checkNickName = true;
                     checkNickNameBtn.setEnabled(false);
-                    checkNickNameBtn.setBackgroundColor(R.color.logo_color);
+                    checkNickNameBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.logo_color));
                 } else if (checkNickNameResponse.responseCode == 401) {
                     checkNickName = false;
                     showMessage("닉네임이 중복됩니다. 다시 설정해주세요.");
@@ -98,6 +112,32 @@ public class SignupActivity extends AppCompatActivity {
                     checkNickName = false;
                     showMessage("닉네임이 중복체크에 실패하셨습니다.400");
                     Log.d("FAIL CHECK NICKNAME", "400 bad request");
+                }
+            }
+        });
+
+        // password 확인 변동
+        checkPassWord.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                changeTextPassWord.setText("비밀번호를 한번 더 확인해주세요.");
+                changeTextPassWord.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.red));
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                changeTextPassWord.setText("일치하지 않습니다.");
+                changeTextPassWord.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.red));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (joinPassWord.getText().toString().equals(checkPassWord.getText().toString())) {
+                    changeTextPassWord.setText("비밀번호가 확인 되었습니다.");
+                    changeTextPassWord.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.logo_color));
+                } else {
+                    changeTextPassWord.setText("비밀번호가 일치하지 않습니다.");
+                    changeTextPassWord.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.red));
                 }
             }
         });
@@ -135,7 +175,6 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // 변수 string 으로 변환
                 EditText editEmail = findViewById(R.id.email);
-
                 signupViewModel.checkEmail(editEmail.getText().toString());
             }
         });
@@ -152,6 +191,7 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+    // Toast Message 이용
     private void showMessage(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }

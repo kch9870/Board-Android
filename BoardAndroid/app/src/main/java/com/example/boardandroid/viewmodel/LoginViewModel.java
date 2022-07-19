@@ -14,7 +14,6 @@ public class LoginViewModel extends ViewModel {
     LoginRepository mLoginRepository;
 
     public LoginViewModel() {
-//        mLoginResultMutableData.postValue(new LoginResponse(null,null,null));
         mLoginRepository = new LoginRepository();
     }
 

@@ -2,6 +2,7 @@ package com.example.boardandroid.view.fragment;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.boardandroid.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class BoardListFragment extends Fragment {
 
@@ -49,7 +51,7 @@ public class BoardListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_board_list,container,false);
         // Inflate the layout for this fragment
 
-        Button btnWrite = (Button) view.findViewById(R.id.btnWrite);
+        FloatingActionButton btnWrite  = view.findViewById(R.id.btnWrite);
         btnWrite.setOnClickListener(v-> onClickBoardWriteFragment());
 
         return view;

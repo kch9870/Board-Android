@@ -15,6 +15,7 @@ public class SignupViewModel extends ViewModel {
     MutableLiveData<SignupResponse> mSignupResultMutableData = new MutableLiveData<>();
     MutableLiveData<BaseResponse> mCheckEmailResultMutableData = new MutableLiveData<>();
     MutableLiveData<BaseResponse> mCheckNickNameResultMutableData = new MutableLiveData<>();
+    MutableLiveData<String> mCheckPassword = new MutableLiveData<>();
 
     SignupRepository mSignupRepository;
 
@@ -81,6 +82,11 @@ public class SignupViewModel extends ViewModel {
             }
         });
     }
+
+    public void changePassword(String password){
+
+    }
+
 
     public LiveData<SignupResponse> getSignupResult() {return mSignupResultMutableData;}
     public LiveData<BaseResponse> getCheckEmailResult() {return mCheckEmailResultMutableData;}

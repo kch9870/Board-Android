@@ -18,6 +18,10 @@ public class UserInfo {
 
     public UserInfo(){ }
 
+    public void setUserId(int userId){
+        this.userId = userId;
+    }
+
     public void setUserInfo(String email,String password,String name,String nickName){
         this.email = email;
         this.password = password;
@@ -34,4 +38,5 @@ public class UserInfo {
     public UserInfo getUserInfo(){
         return this;
     }
+    public int getUserId(){ return userId; }
 }
