@@ -5,5 +5,5 @@ public class GetNickNameResponse {
 
     public int responseCode;
     public String responseMsg;
-    public int userId;
+    public String nickName;
 }

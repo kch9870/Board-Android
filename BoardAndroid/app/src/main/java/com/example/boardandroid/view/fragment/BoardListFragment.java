@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.boardandroid.R;
+import com.example.boardandroid.repository.model.response.BoardListResponse;
+import com.example.boardandroid.view.util.BoardAdapter;
+import com.example.boardandroid.view.util.BoardListItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class BoardListFragment extends Fragment {
 
@@ -50,6 +57,32 @@ public class BoardListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_board_list,container,false);
         // Inflate the layout for this fragment
+
+        BoardAdapter adapter;
+        RecyclerView recyclerView;
+
+        ArrayList<BoardListItem> boardListModel = new ArrayList();
+
+        // test model
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+        boardListModel.add(new BoardListItem("눈누난나","난 누구인가","2022.07.15",20,25));
+
+        recyclerView = view.findViewById(R.id.recyclerview);
+        adapter = new BoardAdapter(getContext(),boardListModel);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
 
         FloatingActionButton btnWrite  = view.findViewById(R.id.btnWrite);
         btnWrite.setOnClickListener(v-> onClickBoardWriteFragment());

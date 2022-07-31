@@ -1,5 +1,8 @@
 package com.example.boardandroid.repository.model;
 
+/**
+ * 싱글톤으로 구현 및 유지
+ */
 public class UserInfo {
     private String email;
     private String password;
@@ -22,6 +25,10 @@ public class UserInfo {
         this.userId = userId;
     }
 
+    public void setNickName(String nickName){
+        this.nickName = nickName;
+    }
+
     public void setUserInfo(String email,String password,String name,String nickName){
         this.email = email;
         this.password = password;
@@ -39,4 +46,5 @@ public class UserInfo {
         return this;
     }
     public int getUserId(){ return userId; }
+    public String getNickName(){ return nickName; }
 }

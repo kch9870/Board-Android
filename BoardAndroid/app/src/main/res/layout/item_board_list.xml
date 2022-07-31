@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/itemLayout">
+
+    <TextView
+        android:id="@+id/tvViews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="조회수 23회"/>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="게시글 제목"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/tvNickName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="작성자님"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/tvCommentCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="댓글 수 2개"/>
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2022.07.15" />
+
+</LinearLayout>

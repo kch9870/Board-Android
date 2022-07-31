@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                     UserInfo userInfo = UserInfo.getInstance();
                     Log.d("200SUCCESS",String.valueOf(loginResponse.userInfo.userId));
                     userInfo.setUserId(loginResponse.userInfo.userId);
+                    userInfo.setNickName(loginResponse.userInfo.nickName);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
